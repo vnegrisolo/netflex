@@ -1,7 +1,4 @@
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse){
-    if(request.message === "clicked_browser_action"){
-      [
+var TITLES = [
         "Admiral",
         "Better Call Saul", // waiting new season
         "Braveheart",
@@ -37,10 +34,21 @@ chrome.runtime.onMessage.addListener(
         "Turn", // waiting new season
         "V for Vendetta",
         "Weeds"
-      ].forEach(function(x, i, xs){
-        document.querySelectorAll('[aria-label="'+x+'"]').forEach(function(y, j, ys){
-          var element = y.parentNode.parentNode;
-          element.style.display = 'none';
+];
+var SEL_P = '[aria-label="';
+var SEL_S = '"]';
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse){
+    if(request.message === "clicked_browser_action"){
+      chrome.storage.local.set({'titles': TITLES}, function() {
+      });
+
+      chrome.storage.local.get('titles', function(value) {
+        value.titles.forEach(function(x, i, xs){
+          document.querySelectorAll(SEL_P + x + SEL_S).forEach(function(y, j, ys){
+            y.parentNode.parentNode.style.display = 'none';
+          });
         });
       });
     }

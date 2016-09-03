@@ -14,5 +14,6 @@
     }
   ],
   "browser_action": {
-  }
+  },
+  "permissions": ["storage"]
 }

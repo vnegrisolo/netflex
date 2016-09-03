@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "NetFlex",
+  "version": "0.1",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.netflix.com/browse"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "browser_action": {
+  }
+}

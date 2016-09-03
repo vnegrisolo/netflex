@@ -13,7 +13,7 @@
       "js": ["content.js"]
     }
   ],
-  "browser_action": {
+  "page_action": {
     "default_icon": {
       "19": "images/19.png",
       "38": "images/38.png"
@@ -21,5 +21,8 @@
     "default_title": "NetFlex",
     "default_popup": "menu.html"
   },
-  "permissions": ["storage"]
+  "permissions": [
+    "tabs",
+    "storage"
+  ]
 }

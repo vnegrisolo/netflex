@@ -40,7 +40,7 @@ var SEL_S = '"]';
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse){
-    if(request.message === "clicked_browser_action"){
+    if(request.message === 'foo'){
       chrome.storage.local.set({'titles': TITLES}, function() {
       });
 

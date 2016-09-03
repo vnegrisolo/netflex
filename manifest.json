@@ -14,6 +14,8 @@
     }
   ],
   "browser_action": {
+    "default_title": "NetFlex",
+    "default_popup": "menu.html"
   },
   "permissions": ["storage"]
 }

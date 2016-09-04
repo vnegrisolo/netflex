@@ -38,6 +38,18 @@ var TITLES = [
 
 document.body.onload = function(){
   chrome.storage.sync.set({'data': TITLES});
+
+  chrome.storage.sync.get('data', function(data){
+    document.getElementById('titles').innerHTML = "";
+
+    data.data.forEach(function(title){
+      var node = document.createElement("li");
+      var text = document.createTextNode(title);
+      node.appendChild(text);
+
+      document.getElementById('titles').appendChild(node);
+    });
+  });
 }
 
 document.getElementById('clear').onclick = function(){

@@ -18,8 +18,8 @@
       "19": "images/19.png",
       "38": "images/38.png"
     },
-    "default_title": "NetFlex",
-    "default_popup": "menu.html"
+    "default_popup": "popup.html",
+    "default_title": "NetFlex"
   },
   "permissions": [
     "tabs",

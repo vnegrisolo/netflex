@@ -1,6 +1,6 @@
 # NetFlex
 
-Flexible Netflix chrome extension
+NetFlex is a light chrome extension that remove movies chosen by you from Netflix browse page
 
 ## Development
 

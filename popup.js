@@ -37,13 +37,7 @@ var TITLES = [
 ];
 
 function $(selector) {
-  var reg_id = /^#(.+)/;
-  var reg_class = /^\.(.+)/;
-  if(selector.match(reg_id)) {
-    return document.getElementById(selector.match(reg_id)[1]);
-  } else {
-    return document.getElementsByClassName(selector.match(reg_class)[1]);
-  }
+  return document.querySelectorAll(selector);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -51,19 +45,19 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.set({'data': TITLES});
 
     chrome.storage.sync.get('data', function(data){
-      $('#titles').innerHTML = '';
+      $('#titles')[0].innerHTML = '';
 
       data.data.forEach(function(title){
         var node = document.createElement("li");
         var text = document.createTextNode(title);
         node.appendChild(text);
 
-        $('#titles').appendChild(node);
+        $('#titles')[0].appendChild(node);
       });
     });
   }
 
-  $('#clear').onclick = function(){
+  $('#clear')[0].onclick = function(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
       chrome.tabs.sendMessage(tabs[0].id, {'message': 'foo'});
     });

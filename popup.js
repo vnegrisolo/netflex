@@ -40,26 +40,31 @@ function $(selector) {
   return document.querySelectorAll(selector);
 }
 
+function showTitles(data) {
+  $('#titles')[0].innerHTML = '';
+
+  data.data.forEach(function(title){
+    var node = document.createElement("li");
+    var text = document.createTextNode(title);
+    node.appendChild(text);
+
+    $('#titles')[0].appendChild(node);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  document.body.onload = function(){
-    chrome.storage.sync.set({'data': TITLES});
+  chrome.storage.sync.set({'data': TITLES});
+  chrome.storage.sync.get('data', showTitles);
 
-    chrome.storage.sync.get('data', function(data){
-      $('#titles')[0].innerHTML = '';
-
-      data.data.forEach(function(title){
-        var node = document.createElement("li");
-        var text = document.createTextNode(title);
-        node.appendChild(text);
-
-        $('#titles')[0].appendChild(node);
-      });
-    });
-  }
-
-  $('#clear')[0].onclick = function(){
+  $('#hide-all')[0].onclick = function(){
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {'message': 'foo'});
+      chrome.tabs.sendMessage(tabs[0].id, {'message': 'hideAll'});
+    });
+  };
+
+  $('#show-all')[0].onclick = function(){
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+      chrome.tabs.sendMessage(tabs[0].id, {'message': 'showAll'});
     });
   };
 });

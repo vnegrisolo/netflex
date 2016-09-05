@@ -29,3 +29,14 @@ chrome.runtime.onMessage.addListener(
     if(request.message === 'showAll'){ showAll(); }
   }
 );
+
+document.onkeyup = function(event) {
+  switch(event.keyCode) {
+    case 72:
+      hideAll();
+      break;
+    case 83:
+      showAll();
+      break;
+  }
+};

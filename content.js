@@ -32,11 +32,7 @@ chrome.runtime.onMessage.addListener(
 
 document.onkeyup = function(event) {
   switch(event.keyCode) {
-    case 72:
-      hideAll();
-      break;
-    case 83:
-      showAll();
-      break;
+    case 72: hideAll(); break;
+    case 83: showAll(); break;
   }
 };

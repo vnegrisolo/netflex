@@ -76,9 +76,8 @@ function addTitle() {
 
 document.addEventListener('DOMContentLoaded', function() {
   // chrome.storage.sync.set({'data': TITLES});
-
   showTitles();
   $('#hide-all')[0].onclick = function(){ message('hideAll'); };
   $('#show-all')[0].onclick = function(){ message('showAll'); };
-  $('#add-title')[0].onclick = function(){ addTitle(); };
+  $('#add-title')[0].onsubmit = function(){ addTitle(); };
 });

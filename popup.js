@@ -40,31 +40,45 @@ function $(selector) {
   return document.querySelectorAll(selector);
 }
 
-function showTitles(data) {
-  $('#titles')[0].innerHTML = '';
+function message(text) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    chrome.tabs.sendMessage(tabs[0].id, {'message': text});
+  });
+}
 
-  data.data.forEach(function(title){
-    var node = document.createElement("li");
-    var text = document.createTextNode(title);
-    node.appendChild(text);
+function showTitles() {
+  chrome.storage.sync.get('data', function(data) {
+    $('#titles')[0].innerHTML = '';
 
-    $('#titles')[0].appendChild(node);
+    data.data.forEach(function(title){
+      var node = document.createElement("li");
+      var text = document.createTextNode(title);
+      node.appendChild(text);
+
+      $('#titles')[0].appendChild(node);
+    });
+  });
+}
+
+function addTitle() {
+  chrome.storage.sync.get('data', function(data){
+    var titles = data.data;
+    var value = $('#title-input')[0].value;
+
+    titles.push(value);
+    titles = Array.from(new Set(titles.sort()));
+    chrome.storage.sync.set({data: titles});
+    showTitles();
+    message('hideAll');
+    $('#title-input')[0].value = '';
   });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  chrome.storage.sync.set({'data': TITLES});
-  chrome.storage.sync.get('data', showTitles);
+  // chrome.storage.sync.set({'data': TITLES});
 
-  $('#hide-all')[0].onclick = function(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {'message': 'hideAll'});
-    });
-  };
-
-  $('#show-all')[0].onclick = function(){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {'message': 'showAll'});
-    });
-  };
+  showTitles();
+  $('#hide-all')[0].onclick = function(){ message('hideAll'); };
+  $('#show-all')[0].onclick = function(){ message('showAll'); };
+  $('#add-title')[0].onclick = function(){ addTitle(); };
 });

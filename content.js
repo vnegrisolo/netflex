@@ -1,17 +1,20 @@
 var SEL_P = '[aria-label="';
 var SEL_S = '"]';
+var DISPLAY = false;
 
 function $(selector) {
   return document.querySelectorAll(selector);
 }
 
 function showAll() {
+  DISPLAY = true;
   $('.slider-item').forEach(function(el) {
     el.style.visibility = 'visible';
   });
 }
 
 function hideAll() {
+  DISPLAY = false;
   chrome.storage.sync.get('data', hideTitles);
 }
 
@@ -36,3 +39,15 @@ document.onkeyup = function(event) {
     case 83: showAll(); break;
   }
 };
+
+function hideLoop() {
+  setTimeout(function(){
+    if(DISPLAY == true) {
+      showAll();
+    } else {
+      hideAll();
+    }
+    hideLoop();
+  }, 500);
+}
+hideLoop();

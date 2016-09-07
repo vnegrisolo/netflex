@@ -71,10 +71,10 @@ function showTitles() {
       var button = document.createElement('button');
       button.setAttribute('class', 'remove-title');
       button.setAttribute('data-value', title);
-      button.appendChild(document.createTextNode('Remove'));
+      button.appendChild(document.createTextNode('X'));
       node.appendChild(button);
 
-      var text = document.createTextNode(title);
+      var text = document.createTextNode(' '+title);
       node.appendChild(text);
 
       $('#titles')[0].appendChild(node);

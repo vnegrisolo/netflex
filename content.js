@@ -1,7 +1,5 @@
 var DISPLAY = false;
 
-function $(selector) { return document.querySelectorAll(selector); }
-
 function refreshDisplay() {
   if(DISPLAY == true) {
     showAll();

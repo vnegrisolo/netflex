@@ -42,16 +42,6 @@ var FORM_SELECTOR = '#add-title';
 var TOOGLE_SELECTOR = '#toogle-display';
 var REMOVE_ITEM_CLASS = 'remove-title';
 
-function $(selector) { return document.querySelectorAll(selector); }
-
-function onclick(selector, callback) {
-  $(selector).forEach(function(el){ el.onclick = callback; });
-}
-
-function onsubmit(selector, callback) {
-  $(selector).forEach(function(el){ el.onsubmit = callback; });
-}
-
 function message(text) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
     chrome.tabs.sendMessage(tabs[0].id, {'message': text});

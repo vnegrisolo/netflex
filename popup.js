@@ -36,20 +36,20 @@ var TITLES = [
   "Weeds"
 ];
 
-function $(selector) {
-  return document.querySelectorAll(selector);
-}
+var LIST = $('#titles')[0];
+var INPUT = $('#title-input')[0];
+var FORM_SELECTOR = '#add-title';
+var TOOGLE_SELECTOR = '#toogle-display';
+var REMOVE_ITEM_CLASS = 'remove-title';
+
+function $(selector) { return document.querySelectorAll(selector); }
 
 function onclick(selector, callback) {
-  $(selector).forEach(function(el){
-    el.onclick = callback;
-  });
+  $(selector).forEach(function(el){ el.onclick = callback; });
 }
 
 function onsubmit(selector, callback) {
-  $(selector).forEach(function(el){
-    el.onsubmit = callback;
-  });
+  $(selector).forEach(function(el){ el.onsubmit = callback; });
 }
 
 function message(text) {
@@ -58,43 +58,41 @@ function message(text) {
   });
 }
 
-function hideAll() { message('hideAll'); }
-function showAll() { message('showAll'); }
+function toogleDisplay() { message('toogleDisplay'); }
+
+function createItemNode(title) {
+  var node = document.createElement('li');
+
+  var button = document.createElement('button');
+  button.setAttribute('class', REMOVE_ITEM_CLASS);
+  button.setAttribute('data-value', title);
+  button.appendChild(document.createTextNode('X'));
+  node.appendChild(button);
+
+  var text = document.createTextNode(' '+title);
+  node.appendChild(text);
+  return node;
+}
 
 function showTitles() {
   chrome.storage.sync.get('data', function(data) {
-    $('#titles')[0].innerHTML = '';
-
+    LIST.innerHTML = '';
     data.data.forEach(function(title){
-      var node = document.createElement('li');
-
-      var button = document.createElement('button');
-      button.setAttribute('class', 'remove-title');
-      button.setAttribute('data-value', title);
-      button.appendChild(document.createTextNode('X'));
-      node.appendChild(button);
-
-      var text = document.createTextNode(' '+title);
-      node.appendChild(text);
-
-      $('#titles')[0].appendChild(node);
+      LIST.appendChild(createTextNode(title));
     });
-    onclick('.remove-title', removeTitle);
+    onclick('.'+REMOVE_ITEM_CLASS, removeTitle);
   });
 }
 
 function addTitle() {
-  var value = $('#title-input')[0].value;
-
   chrome.storage.sync.get('data', function(data){
     var titles = data.data;
 
-    titles.push(value);
+    titles.push(INPUT.value);
     titles = Array.from(new Set(titles.sort()));
     chrome.storage.sync.set({data: titles});
     showTitles();
-    message('hideAll');
-    $('#title-input')[0].value = '';
+    INPUT.value = '';
   });
 }
 
@@ -107,7 +105,6 @@ function removeTitle(el) {
     titles.splice(titles.indexOf(value), 1);
     chrome.storage.sync.set({data: titles});
     showTitles();
-    message('hideAll');
   });
 }
 
@@ -115,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // chrome.storage.sync.set({'data': TITLES});
   showTitles();
 
-  onclick('#hide-all', hideAll);
-  onclick('#show-all', showAll);
-  onsubmit('#add-title', addTitle);
+  onclick(TOOGLE_SELECTOR, toogleDisplay);
+  onsubmit(FORM_SELECTOR, addTitle);
 });

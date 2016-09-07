@@ -1,53 +1,50 @@
-var SEL_P = '[aria-label="';
-var SEL_S = '"]';
 var DISPLAY = false;
 
-function $(selector) {
-  return document.querySelectorAll(selector);
+function $(selector) { return document.querySelectorAll(selector); }
+
+function refreshDisplay() {
+  if(DISPLAY == true) {
+    showAll();
+  } else {
+    hideAll();
+  }
+}
+
+function toogleDisplay() {
+  DISPLAY = !DISPLAY;
+  refreshDisplay();
 }
 
 function showAll() {
-  DISPLAY = true;
   $('.slider-item').forEach(function(el) {
     el.style.visibility = 'visible';
   });
 }
 
 function hideAll() {
-  DISPLAY = false;
-  chrome.storage.sync.get('data', hideTitles);
-}
-
-function hideTitles(data) {
-  data.data.forEach(function(title){
-    $(SEL_P + title + SEL_S).forEach(function(el){
-      el.parentNode.parentNode.style.visibility = 'hidden';
+  chrome.storage.sync.get('data', function(data) {
+    data.data.forEach(function(title){
+      $('[aria-label="' + title + '"]').forEach(function(el){
+        el.parentNode.parentNode.style.visibility = 'hidden';
+      });
     });
   });
 }
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse){
-    if(request.message === 'hideAll'){ hideAll(); }
-    if(request.message === 'showAll'){ showAll(); }
+    if(request.message === 'toogleDisplay'){ toogleDisplay(); }
   }
 );
 
 document.onkeyup = function(event) {
   switch(event.keyCode) {
-    case 72: hideAll(); break;
-    case 83: showAll(); break;
+    case 88: toogleDisplay(); break;
   }
 };
 
 function hideLoop() {
-  setTimeout(function(){
-    if(DISPLAY == true) {
-      showAll();
-    } else {
-      hideAll();
-    }
-    hideLoop();
-  }, 500);
+  refreshDisplay();
+  setTimeout(hideLoop, 500);
 }
 hideLoop();

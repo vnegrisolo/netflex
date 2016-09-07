@@ -1,11 +1,7 @@
 var DISPLAY = false;
 
 function refreshDisplay() {
-  if(DISPLAY == true) {
-    showAll();
-  } else {
-    hideAll();
-  }
+  DISPLAY == true ? showAll() : hideAll();
 }
 
 function toogleDisplay() {
@@ -20,18 +16,16 @@ function showAll() {
 }
 
 function hideAll() {
-  chrome.storage.sync.get('data', function(data) {
-    data.data.forEach(function(title){
-      $('[aria-label="' + title + '"]').forEach(function(el){
-        el.parentNode.parentNode.style.visibility = 'hidden';
-      });
+  Storage.readEachTitle(function(title){
+    $('[aria-label="' + title + '"]').forEach(function(el){
+      el.parentNode.parentNode.style.visibility = 'hidden';
     });
   });
 }
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse){
-    if(request.message === 'toogleDisplay'){ toogleDisplay(); }
+    if(request.message == 'toogleDisplay'){ toogleDisplay(); }
   }
 );
 

@@ -16,7 +16,7 @@ function showAll() {
 }
 
 function hideAll() {
-  Storage.readEachTitle(function(title){
+  Storage.readEach(function(title){
     $('[aria-label="' + title + '"]').forEach(function(el){
       el.parentNode.parentNode.style.visibility = 'hidden';
     });
@@ -31,12 +31,12 @@ chrome.runtime.onMessage.addListener(
 
 document.onkeyup = function(event) {
   switch(event.keyCode) {
-    case 88: toogleDisplay(); break;
+    case 88: toogleDisplay(); break; // x
   }
 };
 
-function hideLoop() {
+function refreshLoop() {
   refreshDisplay();
-  setTimeout(hideLoop, 500);
+  setTimeout(refreshLoop, 500);
 }
-hideLoop();
+refreshLoop();

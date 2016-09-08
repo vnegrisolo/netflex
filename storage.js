@@ -1,41 +1,41 @@
 var Storage = {
-  readAllTitles: function(callback){
+  write: function(list){
+    chrome.storage.sync.set({data: list});
+  },
+
+  read: function(callback){
     chrome.storage.sync.get('data', function(data) {
-      callback(data.data ? data.data : []);
+      callback(data.data || []);
     });
   },
 
-  readEachTitle: function(callback){
+  readEach: function(callback){
     return new Promise(function(resolve) {
-      Storage.readAllTitles(function(titles){
-        titles.forEach(function(title){
-          callback(title);
+      Storage.read(function(list){
+        list.forEach(function(item){
+          callback(item);
         });
         resolve();
       });
     });
   },
 
-  writeTitles: function(titles){
-    chrome.storage.sync.set({data: titles});
-  },
-
-  addTitle: function(title){
+  addToList: function(item){
     return new Promise(function(resolve) {
-      Storage.readAllTitles(function(titles){
-        titles.push(title);
-        titles = Array.from(new Set(titles.sort()));
-        Storage.writeTitles(titles);
+      Storage.read(function(list){
+        list.push(item);
+        list = Array.from(new Set(list.sort()));
+        Storage.write(list);
         resolve();
       });
     });
   },
 
-  removeTitle: function(title){
+  removeFromList: function(item){
     return new Promise(function(resolve) {
-      Storage.readAllTitles(function(titles){
-        titles.splice(titles.indexOf(title), 1);
-        Storage.writeTitles(titles);
+      Storage.read(function(list){
+        list.splice(list.indexOf(item), 1);
+        Storage.write(list);
         resolve();
       });
     });

@@ -1,5 +1,3 @@
-var REMOVE_ITEM_CLASS = 'remove-title';
-
 function message(text) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
     chrome.tabs.sendMessage(tabs[0].id, {'message': text});
@@ -12,7 +10,7 @@ function createItemNode(title) {
   var node = document.createElement('li');
 
   var button = document.createElement('button');
-  button.setAttribute('class', REMOVE_ITEM_CLASS);
+  button.setAttribute('class', 'remove-title');
   button.setAttribute('data-value', title);
   button.appendChild(document.createTextNode('X'));
   node.appendChild(button);
@@ -25,16 +23,16 @@ function createItemNode(title) {
 function showTitles() {
   var list = $('#titles')[0];
   list.innerHTML = '';
-  Storage.readEachTitle(function(title){
+  Storage.readEach(function(title){
     list.appendChild(createItemNode(title));
   }).then(function(){
-    onclick('.'+REMOVE_ITEM_CLASS, removeTitle);
+    onclick('.remove-title', removeTitle);
   });
 }
 
 function addTitle() {
   var input = $('#title-input')[0];
-  Storage.addTitle(input.value).then(function(){
+  Storage.addToList(input.value).then(function(){
     showTitles();
     input.value = '';
   });
@@ -42,7 +40,7 @@ function addTitle() {
 
 function removeTitle(el) {
   var value = el.target.getAttribute('data-value');
-  Storage.removeTitle(value).then(function(){
+  Storage.removeFromList(value).then(function(){
     showTitles();
   });
 }

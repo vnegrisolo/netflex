@@ -17,7 +17,7 @@
       "matches": [
         "https://www.netflix.com/browse"
       ],
-      "js": ["common.js", "storage.js", "content.js"]
+      "js": ["common.js", "storage.js", "message.js", "content.js"]
     }
   ],
   "page_action": {

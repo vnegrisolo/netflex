@@ -23,11 +23,9 @@ function hideAll() {
   });
 }
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse){
-    if(request.message == 'toogleDisplay'){ toogleDisplay(); }
-  }
-);
+Message.receive(function(message){
+  if(message == 'toogleDisplay'){ toogleDisplay(); }
+});
 
 document.onkeyup = function(event) {
   switch(event.keyCode) {

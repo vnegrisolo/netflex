@@ -1,15 +1,15 @@
 function toogleDisplay() { Message.send('toogleDisplay'); }
 
 function createItemNode(title) {
-  var node = document.createElement('li');
+  var text = document.createTextNode(' '+title);
 
   var button = document.createElement('button');
   button.setAttribute('class', 'remove-title');
   button.setAttribute('data-value', title);
   button.appendChild(document.createTextNode('X'));
-  node.appendChild(button);
 
-  var text = document.createTextNode(' '+title);
+  var node = document.createElement('li');
+  node.appendChild(button);
   node.appendChild(text);
   return node;
 }
@@ -34,9 +34,7 @@ function addTitle() {
 
 function removeTitle(el) {
   var value = el.target.getAttribute('data-value');
-  Storage.removeFromList(value).then(function(){
-    showTitles();
-  });
+  Storage.removeFromList(value).then(showTitles);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -3,22 +3,18 @@ var DISPLAY = false;
 function refreshDisplay() {
   DISPLAY == true ? showAll() : hideAll();
 }
-
 function toogleDisplay() {
   DISPLAY = !DISPLAY;
   refreshDisplay();
 }
 
 function showAll() {
-  $('.slider-item').forEach(function(el) {
-    el.style.visibility = 'visible';
-  });
+  $('.slider-item').forEach(show);
 }
-
 function hideAll() {
   Storage.readEach(function(title){
     $('[aria-label="' + title + '"]').forEach(function(el){
-      el.parentNode.parentNode.style.visibility = 'hidden';
+      hide(el.parentNode.parentNode);
     });
   });
 }

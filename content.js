@@ -1,12 +1,7 @@
 var DISPLAY = false;
 
-function refreshDisplay() {
-  DISPLAY == true ? showAll() : hideAll();
-}
-function toogleDisplay() {
-  DISPLAY = !DISPLAY;
-  refreshDisplay();
-}
+function refreshDisplay() { DISPLAY == true ? showAll() : hideAll(); }
+function toggleDisplay() { DISPLAY = !DISPLAY; refreshDisplay(); }
 
 function showAll() {
   $('.slider-item').forEach(show);
@@ -20,12 +15,12 @@ function hideAll() {
 }
 
 Message.receive(function(message){
-  if(message == 'toogleDisplay'){ toogleDisplay(); }
+  if(message == 'toggleDisplay'){ toggleDisplay(); }
 });
 
-document.onkeyup = function(event) {
-  switch(event.keyCode) {
-    case 88: toogleDisplay(); break; // x
+document.onkeydown = function(event) {
+  switch(event.key) {
+    case 'x': toggleDisplay(); break;
   }
 };
 

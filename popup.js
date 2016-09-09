@@ -1,4 +1,4 @@
-function toogleDisplay() { Message.send('toogleDisplay'); }
+function toggleDisplay() { Message.send('toggleDisplay'); }
 
 function createItemNode(title) {
   var text = document.createTextNode(' '+title);
@@ -40,6 +40,6 @@ function removeTitle(el) {
 document.addEventListener('DOMContentLoaded', function() {
   showTitles();
 
-  onclick('#toogle-display', toogleDisplay);
+  onclick('#toggle-display', toggleDisplay);
   onsubmit('#add-title', addTitle);
 });

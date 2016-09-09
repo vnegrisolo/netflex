@@ -39,5 +39,17 @@ var Storage = {
         resolve();
       });
     });
+  },
+
+  toggleFromList: function(item){
+    return new Promise(function(resolve) {
+      Storage.read(function(list){
+        if(list.includes(item)){
+          Storage.removeFromList(item).then(resolve);
+        }else{
+          Storage.addToList(item).then(resolve);
+        }
+      });
+    });
   }
 }

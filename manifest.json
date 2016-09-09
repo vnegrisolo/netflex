@@ -18,7 +18,7 @@
         "https://www.netflix.com/browse"
       ],
       "js": ["common.js", "storage.js", "message.js", "content.js"],
-      "css": []
+      "css": ["content.css"]
     }
   ],
   "page_action": {

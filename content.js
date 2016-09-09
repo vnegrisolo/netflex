@@ -19,10 +19,31 @@ function hideAll() {
 }
 
 function showLinks() {
-  console.log('show-links');
+  $('.slider-item').forEach(function(el){
+    var title = null;
+    var card = el.getElementsByClassName('title_card')[0];
+    if(card){
+      title = card.getAttribute('aria-label');
+    }
+
+    if(title){
+      var button = document.createElement('button');
+      button.setAttribute('class', 'netflex-actions');
+      button.setAttribute('data-title', title);
+      button.appendChild(document.createTextNode(title));
+      el.insertBefore(button, el.firstChild);
+    }
+  });
+  onclick('.netflex-actions', toggleLink);
 }
 function hideLinks() {
-  console.log('show-links');
+  $('.netflex-actions').forEach(function(el){
+    el.parentElement.removeChild(el);
+  });
+}
+function toggleLink(el) {
+  var title = el.target.getAttribute('data-title');
+  Storage.toggleFromList(title).then(toggleLinks);
 }
 
 Message.receive(function(message){

@@ -27,14 +27,21 @@ function showLinks() {
     }
 
     if(title){
-      var button = document.createElement('button');
-      button.setAttribute('class', 'netflex-actions');
-      button.setAttribute('data-title', title);
-      button.appendChild(document.createTextNode(title));
-      el.insertBefore(button, el.firstChild);
+      Storage.includes(title).then(function(included){
+        var classes = ['netflex-actions'];
+        if(included){
+          classes.push('chosen');
+        }
+
+        var button = document.createElement('button');
+        button.setAttribute('class', classes.join(' '));
+        button.setAttribute('data-title', title);
+        button.appendChild(document.createTextNode(title));
+        el.insertBefore(button, el.firstChild);
+        onclick('.netflex-actions', toggleLink);
+      });
     }
   });
-  onclick('.netflex-actions', toggleLink);
 }
 function hideLinks() {
   $('.netflex-actions').forEach(function(el){

@@ -41,6 +41,14 @@ var Storage = {
     });
   },
 
+  includes: function(item){
+    return new Promise(function(resolve) {
+      Storage.read(function(list){
+        resolve(list.includes(item));
+      });
+    });
+  },
+
   toggleFromList: function(item){
     return new Promise(function(resolve) {
       Storage.read(function(list){

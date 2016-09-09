@@ -3,3 +3,9 @@
   color: grey;
   border: 1px solid grey;
 }
+
+.netflex-actions.chosen {
+  background: grey;
+  color: black;
+  border: 1px solid grey;
+}

@@ -1,4 +1,5 @@
 function toggleDisplay() { Message.send('toggleDisplay'); }
+function toggleLinks() { Message.send('toggleLinks'); }
 
 function createItemNode(title) {
   var text = document.createTextNode(' '+title);
@@ -41,5 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
   showTitles();
 
   onclick('#toggle-display', toggleDisplay);
+  onclick('#toggle-links', toggleLinks);
   onsubmit('#add-title', addTitle);
 });

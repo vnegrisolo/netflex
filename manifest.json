@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "NetFlex",
   "description": "NetFlex is a light chrome extension that remove movies chosen by you from Netflix browse page",
-  "version": "0.1",
+  "version": "0.2",
   "icons": {
     "16": "images/icon_16.png",
     "48": "images/icon_48.png",

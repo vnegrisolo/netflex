@@ -1,0 +1,19 @@
+.netflex-container-container {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 100%;
+  background-color: #141414;
+  color: #E50914;
+  width: 400px;
+}
+
+.netflex-actions {
+  background: black;
+  color: grey;
+  border: 1px solid grey;
+}
+
+.netflex-actions.chosen {
+  background: grey;
+  color: black;
+  border: 1px solid grey;
+}

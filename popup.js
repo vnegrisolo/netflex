@@ -2,32 +2,17 @@ function toggleDisplay() { Message.send('toggleDisplay'); }
 function toggleLinks() { Message.send('toggleLinks'); }
 
 function createItemNode(title) {
-  var text = document.createTextNode(' '+title);
-
-  var button = document.createElement('button');
-  button.setAttribute('class', 'remove-title');
-  button.setAttribute('data-value', title);
-  button.appendChild(document.createTextNode('X'));
-
   var node = document.createElement('li');
-  node.appendChild(button);
-  node.appendChild(text);
+  node.appendChild(document.createTextNode(' '+title));
   return node;
 }
 
 function showTitles() {
-  var list = $('#titles')[0];
+  var list = $('#netflex-titles')[0];
   list.innerHTML = '';
   Storage.readEach(function(title){
     list.appendChild(createItemNode(title));
-  }).then(function(){
-    onclick('.remove-title', removeTitle);
   });
-}
-
-function removeTitle(el) {
-  var value = el.target.getAttribute('data-value');
-  Storage.removeFromList(value).then(showTitles);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

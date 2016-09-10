@@ -11,6 +11,8 @@
 }
 
 .netflex-toggle {
+  background: black;
+  color: grey;
   border: 1px solid grey;
 }
 

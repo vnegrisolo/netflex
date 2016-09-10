@@ -53,7 +53,7 @@ function toggleLink(el) {
   Storage.toggleFromList(title).then(toggleLinks);
 }
 
-Message.receive(function(message){
+NetFlex.Message.receive(function(message){
   if(message == 'actions'){ toggleLinks(); }
   if(message == 'display'){ toggleDisplay(); }
 });

@@ -1,5 +1,5 @@
-NetFlex = NetFlex || {}
-NetFlex.Popup = {
+NetFlex = typeof NetFlex == 'undefined' ? {} : NetFlex
+NetFlex['Popup'] = {
   showList: function(){
     $('#netflex-list')[0].innerHTML = '';
     Storage.readEach(function(item){
@@ -10,9 +10,11 @@ NetFlex.Popup = {
   },
 
   toggle: function(el){
-    Message.send(el.target.getAttribute('data-message'));
+    NetFlex.Message.send(el.target.getAttribute('data-message'));
   }
 }
 
-document.addEventListener('DOMContentLoaded', NetFlex.Popup.showList);
-onclick('.netflex-toggle', NetFlex.Popup.toggle);
+document.addEventListener('DOMContentLoaded', function(){
+  NetFlex.Popup.showList();
+  onclick('.netflex-toggle', NetFlex.Popup.toggle);
+});

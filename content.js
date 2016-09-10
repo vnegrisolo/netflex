@@ -28,7 +28,7 @@ function showLinks() {
 
     if(title){
       Storage.includes(title).then(function(included){
-        var classes = ['netflex-actions'];
+        var classes = ['netflex-toggle'];
         if(included){
           classes.push('active');
         }
@@ -38,13 +38,13 @@ function showLinks() {
         button.setAttribute('data-title', title);
         button.appendChild(document.createTextNode(title));
         el.insertBefore(button, el.firstChild);
-        onclick('.netflex-actions', toggleLink);
+        onclick('.netflex-toggle', toggleLink);
       });
     }
   });
 }
 function hideLinks() {
-  $('.netflex-actions').forEach(function(el){
+  $('.netflex-toggle').forEach(function(el){
     el.parentElement.removeChild(el);
   });
 }
@@ -54,8 +54,8 @@ function toggleLink(el) {
 }
 
 Message.receive(function(message){
-  if(message == 'toggleDisplay'){ toggleDisplay(); }
-  if(message == 'toggleLinks'){ toggleLinks(); }
+  if(message == 'actions'){ toggleLinks(); }
+  if(message == 'display'){ toggleDisplay(); }
 });
 
 document.onkeydown = function(event) {

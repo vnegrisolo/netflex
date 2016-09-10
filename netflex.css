@@ -10,11 +10,11 @@
   color: #E50914;
 }
 
-.netflex-actions {
+.netflex-toggle {
   border: 1px solid grey;
 }
 
-.netflex-actions.active {
+.netflex-toggle.active {
   background: grey;
   color: black;
 }

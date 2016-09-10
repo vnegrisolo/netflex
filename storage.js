@@ -1,63 +1,34 @@
-var Storage = {
+NetFlex = typeof NetFlex == 'undefined' ? {} : NetFlex
+NetFlex['Storage'] = {
   write: function(list){
     chrome.storage.sync.set({data: list});
   },
 
   read: function(callback){
-    chrome.storage.sync.get('data', function(data) {
-      callback(data.data || []);
+    return new Promise(function(resolve) {
+      chrome.storage.sync.get('data', function(data) {
+        var list = data.data || [];
+        callback(list);
+        resolve();
+      });
     });
   },
 
   readEach: function(callback){
-    return new Promise(function(resolve) {
-      Storage.read(function(list){
-        list.forEach(function(item){
-          callback(item);
-        });
-        resolve();
-      });
-    });
-  },
-
-  addToList: function(item){
-    return new Promise(function(resolve) {
-      Storage.read(function(list){
-        list.push(item);
-        list = Array.from(new Set(list.sort()));
-        Storage.write(list);
-        resolve();
-      });
-    });
-  },
-
-  removeFromList: function(item){
-    return new Promise(function(resolve) {
-      Storage.read(function(list){
-        list.splice(list.indexOf(item), 1);
-        Storage.write(list);
-        resolve();
-      });
-    });
-  },
-
-  includes: function(item){
-    return new Promise(function(resolve) {
-      Storage.read(function(list){
-        resolve(list.includes(item));
-      });
+    return NetFlex.Storage.read(function(list){
+      list.forEach(callback);
     });
   },
 
   toggleFromList: function(item){
-    return new Promise(function(resolve) {
-      Storage.read(function(list){
-        if(list.includes(item)){
-          Storage.removeFromList(item).then(resolve);
-        }else{
-          Storage.addToList(item).then(resolve);
-        }
-      });
+    return NetFlex.Storage.read(function(list){
+      if(list.includes(item)){
+        list.splice(list.indexOf(item), 1);
+      }else{
+        list.push(item);
+        list = Array.from(new Set(list.sort()));
+      }
+      NetFlex.Storage.write(list);
     });
   }
 }

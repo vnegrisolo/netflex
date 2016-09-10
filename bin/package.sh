@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if test $# -ne 2; then
   echo "Usage: crxmake.sh <extension dir> <pem path>"
   exit 1

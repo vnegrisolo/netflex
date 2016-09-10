@@ -25,14 +25,6 @@ function showTitles() {
   });
 }
 
-function addTitle() {
-  var input = $('#title-input')[0];
-  Storage.addToList(input.value).then(function(){
-    showTitles();
-    input.value = '';
-  });
-}
-
 function removeTitle(el) {
   var value = el.target.getAttribute('data-value');
   Storage.removeFromList(value).then(showTitles);
@@ -43,5 +35,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   onclick('#toggle-display', toggleDisplay);
   onclick('#toggle-links', toggleLinks);
-  onsubmit('#add-title', addTitle);
 });

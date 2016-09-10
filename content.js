@@ -30,7 +30,7 @@ function showLinks() {
       Storage.includes(title).then(function(included){
         var classes = ['netflex-actions'];
         if(included){
-          classes.push('chosen');
+          classes.push('active');
         }
 
         var button = document.createElement('button');

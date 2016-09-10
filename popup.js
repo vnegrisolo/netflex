@@ -1,11 +1,11 @@
 NetFlex = typeof NetFlex == 'undefined' ? {} : NetFlex
 NetFlex['Popup'] = {
   showList: function(){
-    $('#netflex-list')[0].innerHTML = '';
+    NetFlex.Markup.first('#netflex-list').innerHTML = '';
     NetFlex.Storage.readEach(function(item){
       var node = document.createElement('li');
       node.appendChild(document.createTextNode(item));
-      $('#netflex-list')[0].appendChild(node);
+      NetFlex.Markup.first('#netflex-list').appendChild(node);
     });
   },
 
@@ -14,7 +14,7 @@ NetFlex['Popup'] = {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+NetFlex.Markup.onready(function(){
   NetFlex.Popup.showList();
-  onclick('.netflex-toggle', NetFlex.Popup.toggle);
+  NetFlex.Markup.onclick('.netflex-toggle', NetFlex.Popup.toggle);
 });

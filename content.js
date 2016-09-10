@@ -1,25 +1,25 @@
 var DISPLAY = false;
 var LINKS = false;
 
-function refreshDisplay() { DISPLAY == true ? showAll() : hideAll(); }
-function toggleDisplay() { DISPLAY = !DISPLAY; refreshDisplay(); }
+function refreshDisplay(){ DISPLAY == true ? showAll() : hideAll(); }
+function toggleDisplay(){ DISPLAY = !DISPLAY; refreshDisplay(); }
 
-function refreshLinks() { LINKS == true ? showLinks() : hideLinks(); }
-function toggleLinks() { LINKS = !LINKS; refreshLinks(); }
+function refreshLinks(){ LINKS == true ? showLinks() : hideLinks(); }
+function toggleLinks(){ LINKS = !LINKS; refreshLinks(); }
 
-function showAll() {
-  $('.slider-item').forEach(show);
+function showAll(){
+  NetFlex.Markup.forEach('.slider-item', NetFlex.Markup.show);
 }
-function hideAll() {
+function hideAll(){
   NetFlex.Storage.readEach(function(title){
-    $('[aria-label="' + title + '"]').forEach(function(el){
-      hide(el.parentNode.parentNode);
+    NetFlex.Markup.forEach('[aria-label="'+title+'"]', function(el){
+      NetFlex.Markup.hide(el.parentNode.parentNode);
     });
   });
 }
 
-function showLinks() {
-  $('.slider-item').forEach(function(el){
+function showLinks(){
+  NetFlex.Markup.forEach('.slider-item', function(el){
     var item = null;
     var card = el.getElementsByClassName('title_card')[0];
     if(card){
@@ -40,17 +40,17 @@ function showLinks() {
         button.appendChild(document.createTextNode(item));
         el.insertBefore(button, el.firstChild);
       }).then(function(){
-        onclick('.netflex-toggle', toggleLink);
+        NetFlex.Markup.onclick('.netflex-toggle', toggleLink);
       });
     }
   });
 }
-function hideLinks() {
-  $('.netflex-toggle').forEach(function(el){
+function hideLinks(){
+  NetFlex.Markup.forEach('.netflex-toggle', function(el){
     el.parentElement.removeChild(el);
   });
 }
-function toggleLink(el) {
+function toggleLink(el){
   var title = el.target.getAttribute('data-title');
   NetFlex.Storage.toggleFromList(title).then(toggleLinks);
 }
@@ -60,14 +60,14 @@ NetFlex.Message.receive(function(message){
   if(message == 'display'){ toggleDisplay(); }
 });
 
-document.onkeydown = function(event) {
-  switch(event.key) {
+document.onkeydown = function(event){
+  switch(event.key){
     case 'x': toggleDisplay(); break;
     case 'z': toggleLinks(); break;
   }
 };
 
-function refreshLoop() {
+function refreshLoop(){
   refreshDisplay();
   setTimeout(refreshLoop, 500);
 }

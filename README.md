@@ -2,21 +2,23 @@
 
 NetFlex is a light chrome extension that remove movies chosen by you from Netflix browse page.
 
+## NetFlex Popup
+
+**NetFlex** has a chrome extension popup with its features:
+
+<img width="827" alt="screen shot 2016-09-10 at 9 37 21 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414670/6ab3c5c0-77a1-11e6-9aa1-d3fb610ab66e.png">
+
 ## Choose titles to hide:
 
-Type `z` to display **NetFlex** actions and click the items you want to hide/show:
+Inside **NetFlex** popup there's a button `Actions`, click it and select the items you want to hide/show:
 
-<img width="687" alt="screen shot 2016-09-09 at 3 26 29 pm" src="https://cloud.githubusercontent.com/assets/1071893/18400035/2189c9c6-76a2-11e6-89fd-ca9409d0ee84.png">
+<img width="814" alt="screen shot 2016-09-10 at 9 36 31 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414669/6ab3ae1e-77a1-11e6-8fed-4d6d1fb9b9bc.png">
 
 ## Hide/Show items:
 
-Type `x` for hidding/showing your selection:
+Inside **NetFlex** popup there's another button `Display`, click it to hide/show your list:
 
-<img width="699" alt="screen shot 2016-09-09 at 3 26 48 pm" src="https://cloud.githubusercontent.com/assets/1071893/18400033/218513b8-76a2-11e6-8e5d-1a185afe8349.png">
-
-## Popup
-
-<img width="532" alt="screen shot 2016-09-09 at 3 27 33 pm" src="https://cloud.githubusercontent.com/assets/1071893/18400034/218559e0-76a2-11e6-8192-5fc5795a5fa6.png">
+<img width="817" alt="screen shot 2016-09-10 at 9 37 04 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414668/6ab39924-77a1-11e6-9b36-cd48c8f79fb6.png">
 
 ---
 
@@ -34,4 +36,19 @@ Click `Load unpacked extensions...` and find `netflex` cloned repo.
 
 This is how you should see:
 
-![chrome-extensions](https://cloud.githubusercontent.com/assets/1071893/18233021/c53936e8-72aa-11e6-91ac-b5c1e356bfcb.png)
+<img width="753" alt="screen shot 2016-09-10 at 9 59 49 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414690/efa8d284-77a1-11e6-8e68-2cdb669531b8.png">
+
+## Deployment
+
+Upgrade `manifest.json` file with the new version.
+
+Create a git tag with the changes.
+
+```shell
+cd ~/netflex;
+cd ..;
+./netflex/bin/package.sh netflex netflex.pem;
+./netflex/bin/compact.sh;
+```
+
+And then upload the zip file.

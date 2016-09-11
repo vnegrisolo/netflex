@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if test $# -ne 2; then
-  echo "Usage: crxmake.sh <extension dir> <pem path>"
+  echo "Usage: package.sh <extension dir> <pem path>"
   exit 1
 fi
 

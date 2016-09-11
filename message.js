@@ -5,7 +5,6 @@ NetFlex['Message'] = {
       chrome.tabs.sendMessage(tabs[0].id, {'message': text});
     });
   },
-
   receive: function(callback) {
     chrome.runtime.onMessage.addListener(function(request) {
       callback(request.message);

@@ -1,23 +1,31 @@
 NetFlex = typeof NetFlex == 'undefined' ? {} : NetFlex
 NetFlex['Conf'] = {
   display: false,
-  actions: false
+  actions: false,
+  toggle: function(key){ return NetFlex.Conf[key] = !NetFlex.Conf[key]; }
 }
-
 NetFlex['App'] = {
-  toggleDisplay: function(){
-    if(NetFlex.Conf.display = !NetFlex.Conf.display){
-      NetFlex.App.showTitles()
-    }else{
-      NetFlex.App.hideTitles();
+  init: function(){
+    document.onkeydown = function(event){
+      if(event.key == 'z'){ NetFlex.App.toggleActions(); }
+      if(event.key == 'x'){ NetFlex.App.toggleDisplay(); }
+    };
+    NetFlex.Message.receive(function(message){
+      if(message == 'actions'){ NetFlex.App.toggleActions(); }
+      if(message == 'display'){ NetFlex.App.toggleDisplay(); }
+    });
+
+    function netFlexLoop(){
+      !NetFlex.Conf.display && NetFlex.App.hideTitles();
+      setTimeout(netFlexLoop, 300);
     }
+    netFlexLoop();
+  },
+  toggleDisplay: function(){
+    NetFlex.Conf.toggle('display') ? NetFlex.App.showTitles() : NetFlex.App.hideTitles();
   },
   toggleActions: function(){
-    if(NetFlex.Conf.actions = !NetFlex.Conf.actions){
-      NetFlex.App.showActions()
-    }else{
-      NetFlex.App.hideActions();
-    }
+    NetFlex.Conf.toggle('actions') ? NetFlex.App.showActions() : NetFlex.App.hideActions();
   },
   showTitles: function(){
     NetFlex.Markup.forEach('.slider-item', NetFlex.Markup.show);
@@ -31,55 +39,35 @@ NetFlex['App'] = {
   },
   showActions: function(){
     NetFlex.Markup.forEach('.slider-item', function(el){
-      var item = null;
-      var card = el.getElementsByClassName('title_card')[0];
-      if(card){
-        item = card.getAttribute('aria-label');
-      }
-
-      if(item){
-        NetFlex.Storage.read(function(list){
-          var included = list.includes(item);
-          var classes = ['netflex-toggle'];
-          if(included){
-            classes.push('active');
-          }
-
-          var button = document.createElement('button');
-          button.setAttribute('class', classes.join(' '));
-          button.setAttribute('data-title', item);
-          button.appendChild(document.createTextNode(item));
-          el.insertBefore(button, el.firstChild);
-        }).then(function(){
-          NetFlex.Markup.onclick('.netflex-toggle', NetFlex.App.toggleAction);
+      var title = NetFlex.App.cardTitle(el);
+      if(title){
+        NetFlex.Markup.prepend(el, NetFlex.App.actionButton(title));
+        NetFlex.Storage.includes(title, function(included){
+          var btn = el.getElementsByClassName('netflex-toggle')[0];
+          included && NetFlex.Markup.toggleClass(btn, 'active');
         });
       }
     });
+    NetFlex.Markup.onclick('.netflex-toggle', NetFlex.App.toggleAction);
+  },
+  cardTitle: function(el){
+    var card = el.getElementsByClassName('title_card')[0];
+    return card && card.getAttribute('aria-label');
+  },
+  actionButton: function(title){
+    var button = document.createElement('button');
+    button.setAttribute('class', 'netflex-toggle');
+    button.setAttribute('data-title', title);
+    button.appendChild(document.createTextNode(title));
+    return button;
   },
   hideActions: function(){
-    NetFlex.Markup.forEach('.netflex-toggle', function(el){
-      el.parentElement.removeChild(el);
-    });
+    NetFlex.Markup.forEach('.netflex-toggle', NetFlex.Markup.remove);
   },
-  toggleAction: function(el){
-    var title = el.target.getAttribute('data-title');
-    NetFlex.Storage.toggleFromList(title).then(NetFlex.App.toggleActions);
+  toggleAction: function(event){
+    NetFlex.Markup.toggleClass(event.target, 'active');
+    NetFlex.Storage.toggleFromList(event.target.getAttribute('data-title'));
   }
 }
 
-NetFlex.Markup.onready(function(){
-  function netFlexLoop(){
-    if(!NetFlex.Conf.display){ NetFlex.App.hideTitles(); }
-    setTimeout(netFlexLoop, 300);
-  }
-  netFlexLoop();
-
-  document.onkeydown = function(event){
-    if(event.key == 'z'){ NetFlex.App.toggleActions(); }
-    if(event.key == 'x'){ NetFlex.App.toggleDisplay(); }
-  };
-  NetFlex.Message.receive(function(message){
-    if(message == 'actions'){ NetFlex.App.toggleActions(); }
-    if(message == 'display'){ NetFlex.App.toggleDisplay(); }
-  });
-});
+NetFlex.Markup.onready(NetFlex.App.init);

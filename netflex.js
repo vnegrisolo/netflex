@@ -6,10 +6,6 @@ NetFlex['Conf'] = {
 }
 NetFlex['App'] = {
   init: function(){
-    document.onkeydown = function(event){
-      if(event.key == 'z'){ NetFlex.App.toggleActions(); }
-      if(event.key == 'x'){ NetFlex.App.toggleDisplay(); }
-    };
     NetFlex.Message.receive(function(message){
       if(message == 'actions'){ NetFlex.App.toggleActions(); }
       if(message == 'display'){ NetFlex.App.toggleDisplay(); }

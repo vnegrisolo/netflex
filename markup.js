@@ -6,35 +6,38 @@ NetFlex['Markup'] = {
   first: function(selector){
     return NetFlex.Markup.find(selector)[0];
   },
-  forEach: function(selector, callback){
-    NetFlex.Markup.find(selector).forEach(function(el){ callback(el); });
+  each: function(selector, callback){
+    NetFlex.Markup.find(selector).forEach(callback);
   },
-  toggleClass: function(el, item){
+  toggleClass: function(el, x){
     var list = el.getAttribute('class').split(' ');
-    if(list.includes(item)){
-      list.splice(list.indexOf(item), 1);
-    }else{
-      list.push(item);
-    }
-    list = Array.from(new Set(list.sort()));
-    el.setAttribute('class', list.join(' '))
+    list.includes(x) ? list.splice(list.indexOf(x), 1) : list.push(x);
+    el.setAttribute('class', Array.from(new Set(list.sort())).join(' '));
   },
-  show: function(el){
-    el.style.visibility = 'visible';
+  show: function(selector){
+    NetFlex.Markup.each(selector, function(el){
+      el.style.visibility = 'visible';
+    });
   },
-  hide: function(el){
-    el.style.visibility = 'hidden';
+  hide: function(selector){
+    NetFlex.Markup.each(selector, function(el){
+      el.style.visibility = 'hidden';
+    });
   },
-  remove: function(el){
-    el.parentElement.removeChild(el);
+  remove: function(selector){
+    NetFlex.Markup.each(selector, function(el){
+      el.parentElement.removeChild(el);
+    });
   },
   prepend: function(el, node){
     el.insertBefore(node, el.firstChild);
   },
   onclick: function(selector, callback){
-    NetFlex.Markup.forEach(selector, function(el){ el.onclick = callback; });
+    NetFlex.Markup.each(selector, function(el){
+      el.onclick = function(e){ callback(e.target); };
+    });
   },
   onready: function(callback){
-    window.addEventListener('load', callback);
+    window.addEventListener('load', callback.init());
   }
 }

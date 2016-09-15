@@ -1,13 +1,12 @@
-NetFlex = typeof NetFlex == 'undefined' ? {} : NetFlex
-NetFlex['Markup'] = {
+var NetFlexMarkup = {
   find: function(selector){
     return document.querySelectorAll(selector);
   },
   first: function(selector){
-    return NetFlex.Markup.find(selector)[0];
+    return NetFlexMarkup.find(selector)[0];
   },
   each: function(selector, callback){
-    NetFlex.Markup.find(selector).forEach(callback);
+    NetFlexMarkup.find(selector).forEach(callback);
   },
   toggleClass: function(el, x){
     var list = el.getAttribute('class').split(' ');
@@ -15,17 +14,19 @@ NetFlex['Markup'] = {
     el.setAttribute('class', Array.from(new Set(list.sort())).join(' '));
   },
   show: function(selector){
-    NetFlex.Markup.each(selector, function(el){
-      el.style.visibility = 'visible';
-    });
+    NetFlexMarkup.each(selector, NetFlexMarkup.showElement);
+  },
+  showElement: function(el){
+    el.style.visibility = 'visible';
   },
   hide: function(selector){
-    NetFlex.Markup.each(selector, function(el){
-      el.style.visibility = 'hidden';
-    });
+    NetFlexMarkup.each(selector, NetFlexMarkup.hideElement);
+  },
+  hideElement: function(el){
+    el.style.visibility = 'hidden';
   },
   remove: function(selector){
-    NetFlex.Markup.each(selector, function(el){
+    NetFlexMarkup.each(selector, function(el){
       el.parentElement.removeChild(el);
     });
   },
@@ -33,11 +34,11 @@ NetFlex['Markup'] = {
     el.insertBefore(node, el.firstChild);
   },
   onclick: function(selector, callback){
-    NetFlex.Markup.each(selector, function(el){
+    NetFlexMarkup.each(selector, function(el){
       el.onclick = function(e){ callback(e.target); };
     });
   },
   onready: function(callback){
-    window.addEventListener('load', callback.init());
+    window.onload = callback.init;
   }
 }

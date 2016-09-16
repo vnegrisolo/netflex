@@ -8,10 +8,28 @@ var NetFlexMarkup = {
   each: function(selector, callback){
     NetFlexMarkup.find(selector).forEach(callback);
   },
-  toggleClass: function(el, x){
+  setClass: function(el, callback){
     var list = el.getAttribute('class').split(' ');
-    list.includes(x) ? list.splice(list.indexOf(x), 1) : list.push(x);
-    el.setAttribute('class', Array.from(new Set(list.sort())).join(' '));
+    callback(list);
+    list = Array.from(new Set(list.sort())).join(' ');
+    el.setAttribute('class', list);
+    return list;
+  },
+  addClass: function(el, x){
+    return NetFlexMarkup.setClass(el, function(list){ list.push(x); });
+  },
+  removeClass: function(el, x){
+    return NetFlexMarkup.setClass(el, function(list){ list.splice(list.indexOf(x), 1); });
+  },
+  hasClass: function(el, x){
+    return el.getAttribute('class').split(' ').includes(x);
+  },
+  toggleClass: function(el, x){
+    if(NetFlexMarkup.hasClass(el, x)){
+      return NetFlexMarkup.removeClass(el, x);
+    }else{
+      return NetFlexMarkup.addClass(el, x);
+    }
   },
   show: function(selector){
     NetFlexMarkup.each(selector, NetFlexMarkup.showElement);

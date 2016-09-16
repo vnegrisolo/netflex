@@ -1,7 +1,10 @@
 var NetFlexStorage = {
   db: chrome.storage.sync,
-  write: function(list){
-    NetFlexStorage.db.set({data: list});
+  write: function(data){
+    NetFlexStorage.db.set({data: data});
+  },
+  writeList: function(list){
+    NetFlexStorage.write(Array.from(new Set(list.sort())));
   },
   read: function(callback){
     NetFlexStorage.db.get('data', function(data) {
@@ -9,15 +12,25 @@ var NetFlexStorage = {
     });
   },
   readEach: function(callback){
-    NetFlexStorage.read(function(list){ list.forEach(callback); });
-  },
-  includes: function(title, callback){
-    NetFlexStorage.read(function(list){ callback(list.includes(title)); });
-  },
-  toggleFromList: function(x){
     NetFlexStorage.read(function(list){
-      list.includes(x) ? list.splice(list.indexOf(x), 1) : list.push(x);
-      NetFlexStorage.write(Array.from(new Set(list.sort())));
+      list.forEach(callback);
+    });
+  },
+  add: function(item){
+    NetFlexStorage.read(function(list){
+      list.push(item);
+      NetFlexStorage.writeList(list);
+    });
+  },
+  remove: function(item){
+    NetFlexStorage.read(function(list){
+      list.splice(list.indexOf(item), 1);
+      NetFlexStorage.writeList(list);
+    });
+  },
+  toggle: function(item){
+    NetFlexStorage.read(function(list){
+      list.includes(item) ? NetFlexStorage.remove(item) : NetFlexStorage.add(item);
     });
   }
 }

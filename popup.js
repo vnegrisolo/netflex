@@ -1,7 +1,10 @@
 var NetFlexPopup = {
   init: function(){
     NetFlexPopup.showLists();
+    NetFlexMessage.send('reset');
+
     NetFlexMarkup.onclick('.netflex-toggle', function(el){
+      NetFlexMarkup.toggleClass(el, 'active');
       NetFlexMessage.send(el.getAttribute('data-message'));
     });
   },

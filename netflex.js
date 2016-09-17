@@ -1,6 +1,10 @@
 var NetFlexConf = {
   display: false,
   actions: false,
+  reset: function(){
+    NetFlexConf['display'] = false;
+    NetFlexConf['actions'] = false;
+  },
   toggle: function(key){
     return NetFlexConf[key] = !NetFlexConf[key];
   }
@@ -11,15 +15,19 @@ var NetFlex = {
     NetFlexMessage.receive(NetFlex.parseMessage);
     function netFlexLoop(){
       !NetFlexConf.display && NetFlex.hideTitles();
-      NetFlexConf.actions && NetFlex.showActions();
+      if(NetFlexConf.actions){
+        NetFlex.showActions();
+      }else{
+        NetFlex.hideActions();
+      }
       setTimeout(netFlexLoop, 300);
     };
     netFlexLoop();
   },
   parseMessage: function(msg){
-    var val = NetFlexConf.toggle(msg);
-    if(msg == 'display'){ val ? NetFlex.showTitles()  : NetFlex.hideTitles();  }
-    if(msg == 'actions'){ val ? NetFlex.showActions() : NetFlex.hideActions(); }
+    if(msg == 'reset')  { NetFlexConf.reset(); }
+    if(msg == 'display'){ NetFlexConf.toggle(msg) ? NetFlex.showTitles()  : NetFlex.hideTitles();  }
+    if(msg == 'actions'){ NetFlexConf.toggle(msg) ? NetFlex.showActions() : NetFlex.hideActions(); }
   },
   user: function() {
     var profile = NetFlexMarkup.first('.profile-name');

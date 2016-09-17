@@ -1,36 +1,52 @@
 var NetFlexStorage = {
   db: chrome.storage.sync,
-  write: function(data){
-    NetFlexStorage.db.set({data: data});
+  allKeys: 'NetFlexKeys',
+  addToAllKeys: function(key){
+    if(key != NetFlexStorage.allKeys){
+      NetFlexStorage.add(NetFlexStorage.allKeys, key);
+    }
   },
-  writeList: function(list){
-    NetFlexStorage.write(Array.from(new Set(list.sort())));
+  getAllKeys: function(callback){
+    NetFlexStorage.readEach(NetFlexStorage.allKeys, callback);
   },
-  read: function(callback){
-    NetFlexStorage.db.get('data', function(data) {
-      callback(data.data || []);
+  write: function(key, value){
+    var data = {};
+    data[key] = value;
+    NetFlexStorage.db.set(data);
+    NetFlexStorage.addToAllKeys(key);
+  },
+  read: function(key, callback){
+    NetFlexStorage.db.get(key, function(data) {
+      callback(data[key] || []);
     });
   },
-  readEach: function(callback){
-    NetFlexStorage.read(function(list){
+  writeList: function(key, list){
+    NetFlexStorage.write(key, Array.from(new Set(list.sort())));
+  },
+  readEach: function(key, callback){
+    NetFlexStorage.read(key, function(list){
       list.forEach(callback);
     });
   },
-  add: function(item){
-    NetFlexStorage.read(function(list){
+  add: function(key, item){
+    NetFlexStorage.read(key, function(list){
       list.push(item);
-      NetFlexStorage.writeList(list);
+      NetFlexStorage.writeList(key, list);
     });
   },
-  remove: function(item){
-    NetFlexStorage.read(function(list){
+  remove: function(key, item){
+    NetFlexStorage.read(key, function(list){
       list.splice(list.indexOf(item), 1);
-      NetFlexStorage.writeList(list);
+      NetFlexStorage.writeList(key, list);
     });
   },
-  toggle: function(item){
-    NetFlexStorage.read(function(list){
-      list.includes(item) ? NetFlexStorage.remove(item) : NetFlexStorage.add(item);
+  toggle: function(key, item){
+    NetFlexStorage.read(key, function(list){
+      if(list.includes(item)){
+        return NetFlexStorage.remove(key, item);
+      }else{
+        return NetFlexStorage.add(key, item);
+      }
     });
   }
 }

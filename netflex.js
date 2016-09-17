@@ -21,11 +21,16 @@ var NetFlex = {
     if(msg == 'display'){ val ? NetFlex.showTitles()  : NetFlex.hideTitles();  }
     if(msg == 'actions'){ val ? NetFlex.showActions() : NetFlex.hideActions(); }
   },
+  user: function() {
+    var profile = NetFlexMarkup.first('.profile-name');
+    profile = profile || NetFlexMarkup.first('li.active a');
+    return profile && profile.textContent;
+  },
   showTitles: function(){
     NetFlexMarkup.show('.slider-item');
   },
   hideTitles: function(){
-    NetFlexStorage.readEach(NetFlex.hideTitle);
+    NetFlexStorage.readEach(NetFlex.user(), NetFlex.hideTitle);
   },
   hideTitle: function(title){
     NetFlexMarkup.each('[aria-label="'+title+'"]', function(el){
@@ -41,7 +46,7 @@ var NetFlex = {
     });
     NetFlexMarkup.onclick('.netflex-toggle', NetFlex.toggleAction);
 
-    NetFlexStorage.read(function(list){
+    NetFlexStorage.read(NetFlex.user(), function(list){
       NetFlexMarkup.each('.slider-item', function(el){
         var title = NetFlex.cardTitle(el);
         var included = title && list.includes(title);
@@ -66,7 +71,7 @@ var NetFlex = {
   },
   toggleAction: function(el){
     NetFlexMarkup.toggleClass(el, 'active');
-    NetFlexStorage.toggle(el.getAttribute('data-title'));
+    NetFlexStorage.toggle(NetFlex.user(), el.getAttribute('data-title'));
   },
   cardTitle: function(el){
     var card = el.getElementsByClassName('title_card')[0];

@@ -1,24 +1,22 @@
 # NetFlex
 
-NetFlex is a light chrome extension that remove movies chosen by you from Netflix browse page.
+NetFlex is a light chrome extension that remove movies/tv-series chosen by you from Netflix browse page.
 
-## NetFlex Popup
+That's how you'll see you Netflix page:
 
-**NetFlex** has a chrome extension popup with its features:
-
-<img width="827" alt="screen shot 2016-09-10 at 9 37 21 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414670/6ab3c5c0-77a1-11e6-9aa1-d3fb610ab66e.png">
+<img width="640" alt="hidden-titles-1280x800" src="https://cloud.githubusercontent.com/assets/1071893/18605638/59aa25bc-7c65-11e6-8813-4657fcdca470.png">
 
 ## Choose titles to hide:
 
 Inside **NetFlex** popup there's a button `Actions`, click it and select the items you want to hide/show:
 
-<img width="814" alt="screen shot 2016-09-10 at 9 36 31 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414669/6ab3ae1e-77a1-11e6-8fed-4d6d1fb9b9bc.png">
+<img width="640" alt="popup-with-actions-1280x800" src="https://cloud.githubusercontent.com/assets/1071893/18605639/59c4bb02-7c65-11e6-86bc-325337217986.png">
 
 ## Hide/Show items:
 
 Inside **NetFlex** popup there's another button `Display`, click it to hide/show your list:
 
-<img width="817" alt="screen shot 2016-09-10 at 9 37 04 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414668/6ab39924-77a1-11e6-9b36-cd48c8f79fb6.png">
+<img width="640" alt="popup-with-actions-and-display-1280x800" src="https://cloud.githubusercontent.com/assets/1071893/18605640/59e395e0-7c65-11e6-972b-ad58771c44cd.png">
 
 ---
 
@@ -36,7 +34,7 @@ Click `Load unpacked extensions...` and find `netflex` cloned repo.
 
 This is how you should see:
 
-<img width="753" alt="screen shot 2016-09-10 at 9 59 49 pm" src="https://cloud.githubusercontent.com/assets/1071893/18414690/efa8d284-77a1-11e6-8e68-2cdb669531b8.png">
+<img width="761" alt="developer-mode" src="https://cloud.githubusercontent.com/assets/1071893/18605637/58f03dd2-7c65-11e6-8965-9d27ade2bc09.png">
 
 ## Deployment
 
@@ -51,4 +49,6 @@ cd ..;
 ./netflex/bin/compact.sh;
 ```
 
-And then upload the zip file.
+And then upload the zip file into: [chrome-webstore][]
+
+[chrome-webstore]: https://chrome.google.com/webstore/developer/dashboard

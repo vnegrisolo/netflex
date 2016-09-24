@@ -1,12 +1,10 @@
-var NetFlexMessage = {
-  send: function(text) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+class NetFlexMessage {
+  send(text) {
+    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
       chrome.tabs.sendMessage(tabs[0].id, {'message': text});
     });
-  },
-  receive: function(callback) {
-    chrome.runtime.onMessage.addListener(function(request) {
-      callback(request.message);
-    });
+  }
+  receive(callback) {
+    chrome.runtime.onMessage.addListener(request => callback(request.message));
   }
 }

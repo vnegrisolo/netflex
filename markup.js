@@ -1,62 +1,53 @@
-var NetFlexMarkup = {
-  find: function(selector){
+class NetFlexMarkup {
+  find(selector) {
     return document.querySelectorAll(selector);
-  },
-  first: function(selector){
-    return NetFlexMarkup.find(selector)[0];
-  },
-  each: function(selector, callback){
-    NetFlexMarkup.find(selector).forEach(callback);
-  },
-  setClass: function(el, callback){
-    var list = el.getAttribute('class').split(' ');
+  }
+  first(selector) {
+    return this.find(selector)[0];
+  }
+  each(selector, callback) {
+    this.find(selector).forEach(callback);
+  }
+  setClass(el, callback) {
+    let list = el.getAttribute('class').split(' ');
     callback(list);
     list = Array.from(new Set(list.sort())).join(' ');
     el.setAttribute('class', list);
     return list;
-  },
-  addClass: function(el, x){
-    return NetFlexMarkup.setClass(el, function(list){ list.push(x); });
-  },
-  removeClass: function(el, x){
-    return NetFlexMarkup.setClass(el, function(list){ list.splice(list.indexOf(x), 1); });
-  },
-  hasClass: function(el, x){
+  }
+  addClass(el, x) {
+    return this.setClass(el, list => list.push(x));
+  }
+  removeClass(el, x) {
+    return this.setClass(el, list => list.splice(list.indexOf(x), 1));
+  }
+  hasClass(el, x) {
     return el.getAttribute('class').split(' ').includes(x);
-  },
-  toggleClass: function(el, x){
-    if(NetFlexMarkup.hasClass(el, x)){
-      return NetFlexMarkup.removeClass(el, x);
-    }else{
-      return NetFlexMarkup.addClass(el, x);
-    }
-  },
-  show: function(selector){
-    NetFlexMarkup.each(selector, NetFlexMarkup.showElement);
-  },
-  showElement: function(el){
+  }
+  toggleClass(el, x) {
+    this.hasClass(el, x) ? this.removeClass(el, x) : this.addClass(el, x);
+  }
+  show(selector) {
+    this.each(selector, this.showElement);
+  }
+  hide(selector) {
+    this.each(selector, this.hideElement);
+  }
+  showElement(el) {
     el.style.visibility = 'visible';
-  },
-  hide: function(selector){
-    NetFlexMarkup.each(selector, NetFlexMarkup.hideElement);
-  },
-  hideElement: function(el){
+  }
+  hideElement(el) {
     el.style.visibility = 'hidden';
-  },
-  remove: function(selector){
-    NetFlexMarkup.each(selector, function(el){
-      el.parentElement.removeChild(el);
-    });
-  },
-  prepend: function(el, node){
+  }
+  remove(selector) {
+    this.each(selector, el => el.parentElement.removeChild(el));
+  }
+  prepend(el, node) {
     el.insertBefore(node, el.firstChild);
-  },
-  onclick: function(selector, callback){
-    NetFlexMarkup.each(selector, function(el){
-      el.onclick = function(e){ callback(e.target); };
+  }
+  onclick(selector, callback) {
+    this.each(selector, el => {
+      el.onclick = e => callback(e.target);
     });
-  },
-  onready: function(callback){
-    window.onload = callback.init;
   }
 }

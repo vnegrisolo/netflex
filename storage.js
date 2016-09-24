@@ -1,52 +1,44 @@
-var NetFlexStorage = {
-  db: chrome.storage.sync,
-  allKeys: 'NetFlexKeys',
-  addToAllKeys: function(key){
-    if(key != NetFlexStorage.allKeys){
-      NetFlexStorage.add(NetFlexStorage.allKeys, key);
+class NetFlexStorage {
+  constructor() {
+    this.db      = chrome.storage.sync;
+    this.allKeys = 'NetFlexKeys';
+  }
+  addToAllKeys(key) {
+    if(key != this.allKeys) {
+      this.add(this.allKeys, key);
     }
-  },
-  getAllKeys: function(callback){
-    NetFlexStorage.readEach(NetFlexStorage.allKeys, callback);
-  },
-  write: function(key, value){
-    var data = {};
+  }
+  getAllKeys(callback) {
+    this.readEach(this.allKeys, callback);
+  }
+  read(key, callback) {
+    this.db.get(key, data => callback(data[key] || []));
+  }
+  readEach(key, callback) {
+    this.read(key, list => list.forEach(callback));
+  }
+  write(key, value) {
+    let data = {};
     data[key] = value;
-    NetFlexStorage.db.set(data);
-    NetFlexStorage.addToAllKeys(key);
-  },
-  read: function(key, callback){
-    NetFlexStorage.db.get(key, function(data) {
-      callback(data[key] || []);
+    this.db.set(data);
+    this.addToAllKeys(key);
+  }
+  writeList(key, list) {
+    this.write(key, Array.from(new Set(list.sort())));
+  }
+  add(key, value) {
+    this.read(key, list => {
+      list.push(value);
+      this.writeList(key, list);
     });
-  },
-  writeList: function(key, list){
-    NetFlexStorage.write(key, Array.from(new Set(list.sort())));
-  },
-  readEach: function(key, callback){
-    NetFlexStorage.read(key, function(list){
-      list.forEach(callback);
+  }
+  remove(key, value) {
+    this.read(key, list => {
+      list.splice(list.indexOf(value), 1);
+      this.writeList(key, list);
     });
-  },
-  add: function(key, item){
-    NetFlexStorage.read(key, function(list){
-      list.push(item);
-      NetFlexStorage.writeList(key, list);
-    });
-  },
-  remove: function(key, item){
-    NetFlexStorage.read(key, function(list){
-      list.splice(list.indexOf(item), 1);
-      NetFlexStorage.writeList(key, list);
-    });
-  },
-  toggle: function(key, item){
-    NetFlexStorage.read(key, function(list){
-      if(list.includes(item)){
-        return NetFlexStorage.remove(key, item);
-      }else{
-        return NetFlexStorage.add(key, item);
-      }
-    });
+  }
+  toggle(k, v) {
+    this.read(k, list => list.includes(v) ? this.remove(k, v) : this.add(k, v));
   }
 }

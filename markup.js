@@ -47,7 +47,10 @@ class NetFlexMarkup {
   }
   onclick(selector, callback) {
     this.each(selector, el => {
-      el.onclick = e => callback(e.target);
+      el.onclick = e => {
+        e.preventDefault();
+        callback(e.target)
+      };
     });
   }
 }
